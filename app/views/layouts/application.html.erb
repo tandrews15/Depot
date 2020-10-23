@@ -11,10 +11,30 @@
 
   <body>
 
-  <main class='<%= controller.controller_name %>'>
-    <%= yield %>
-  </main>
+  
+    <header class="main">
+      <%= image_tag 'logo.svg', alt: 'The Pragmatic Bookshelf' %>
+      <h1><%= @page_title %></h1>
+    </header>
 
+    <section class="content">
+      <nav class="side_nav">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/questions">Questions</a></li>
+          <li><a href="/news">News</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+        <h1 class="time">
+          <%= Time.now.strftime("%H:%M:%S")%>
+        </h1>
+
+      </nav>
+
+      <main class='<%= controller.controller_name %>'>
+        <%= yield %>
+      </main>
+    </section>
 
   </body>
 </html>
