@@ -44,11 +44,13 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to line_item_url(@line_item)
   end
 
-  test "should destroy line_item" do
+  test "should destroy line_item in cart" do
     assert_difference('LineItem.count', -1) do
-      delete line_item_url(@line_item)
+      delete line_item_url(@line_item.id), params: { line_item: {product_id: @line_item.product_id } }
+      #problems here
     end
 
-    assert_redirected_to line_items_url
+    #assert_redirected_to line_items_url
+    assert_redirected_to cart_url
   end
 end

@@ -3,8 +3,6 @@ class StoreController < ApplicationController
   include CurrentCart
   before_action :set_cart, only: [:create]
 
-  
-
   def index
     @products = Product.order(:title)
 
@@ -13,9 +11,6 @@ class StoreController < ApplicationController
     else
       session[:counter] += 1
     end
-    
   end
-
-
-
+  
 end

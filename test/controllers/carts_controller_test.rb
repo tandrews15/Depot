@@ -23,27 +23,21 @@ class CartsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to cart_url(Cart.last)
   end
 
-  test "should not show cart" do
-    get cart_url(@cart)
-    assert_redirected_to store_index_url
-  end
-
   test "should show cart" do
     get cart_url(@cart)
     if session[:cart_id] == @cart.id
       assert_response :success
+    else
+      assert_redirected_to store_index_url
     end
-  end
-
-  test "should not edit cart" do
-    get edit_cart_url(@cart)
-    assert_redirected_to store_index_url
   end
 
   test "should get edit" do
     get edit_cart_url(@cart)
     if session[:cart_id] == @cart.id
-      assert_response :success
+      assert_response :success    
+    else
+    assert_redirected_to store_index_url
     end
   end
 

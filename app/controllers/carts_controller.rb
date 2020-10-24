@@ -11,6 +11,7 @@ class CartsController < ApplicationController
   # GET /carts/1.json
   def show
     current_session_is_cartid?
+    #@carts = Cart.where(id: session[:cart_id])
   end
 
   # GET /carts/new
