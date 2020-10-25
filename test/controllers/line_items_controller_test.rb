@@ -26,6 +26,30 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'td', "Programming Ruby 14"
   end
 
+
+  test "cart count should remain the same for duplicates" do
+    assert_difference('LineItem.count', 1) do
+      #post line_items_url, params: { line_item: { cart_id: @line_item.cart_id, product_id: @line_item.product_id } }
+      post line_items_url, params: { product_id: products(:ruby).id }
+      post line_items_url, params: { product_id: products(:ruby).id }
+    end
+    follow_redirect!
+    assert_select 'h2', 'Your Cart'
+    assert_select 'td', "Programming Ruby 14"
+  end
+
+  test "cart count should increment" do
+    assert_difference('LineItem.count', 2) do
+      #post line_items_url, params: { line_item: { cart_id: @line_item.cart_id, product_id: @line_item.product_id } }
+      post line_items_url, params: { product_id: products(:ruby).id }
+      post line_items_url, params: { product_id: products(:two).id }
+    end
+    follow_redirect!
+    assert_select 'h2', 'Your Cart'
+    assert_select 'td', "Programming Ruby 14"
+    assert_select 'td', "MyString2"
+  end
+
   test "should show line_item" do
     get line_item_url(@line_item)
     assert_response :success
