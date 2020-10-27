@@ -19,6 +19,16 @@
 
     <section class="content">
       <nav class="side_nav">
+
+<!-- Moving the cart to the menu -->
+<!-- Included files: _line_items , _cart, show -->
+
+        <% if @cart%>
+          <div id="cart" class="carts">
+            <%= render_if @cart && @cart.line_items.any?, @cart%>
+          </div>
+        <%end%>
+
         <ul>
           <li><%= link_to 'Home', store_index_url %></li>
           <li><%= link_to 'Line items', line_items_path %></li>

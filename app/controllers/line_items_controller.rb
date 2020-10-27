@@ -21,7 +21,7 @@ class LineItemsController < ApplicationController
   end
 
   # GET /line_items/1/edit
-  def edit
+  def edit   
   end
 
   # POST /line_items
@@ -40,7 +40,9 @@ class LineItemsController < ApplicationController
     
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to @line_item.cart }
+        format.html { redirect_to store_index_url }
+        #To know which item to highlight to show it added to cart
+        format.js { @current_item = @line_item }
         format.json { render :show, status: :created, location: @line_item }
         session[:counter] = 0
       else
@@ -49,6 +51,21 @@ class LineItemsController < ApplicationController
       end
     end
   end
+
+
+  #Manually added route
+  #POST /line_items/1/reduce
+  def reduce_quantity
+    current_item = LineItem.find(params[:id])
+    if current_item.quantity > 1
+      current_item.quantity = current_item.quantity - 1
+      current_item.save()
+    else
+      current_item.destroy()
+    end
+    redirect_to store_index_url
+  end
+
 
   # PATCH/PUT /line_items/1
   # PATCH/PUT /line_items/1.json
@@ -87,6 +104,5 @@ class LineItemsController < ApplicationController
       params.require(:line_item).permit(:product_id)
       #Part as a security messure 
       #params.require(:line_item).permit(:product_id, :cart_id)
-
     end
 end

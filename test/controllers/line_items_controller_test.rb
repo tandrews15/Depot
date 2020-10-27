@@ -27,6 +27,18 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
 
+  test "should create line_item via AJAX" do
+    assert_difference('LineItem.count') do
+      #post line_items_url, params: { line_item: { cart_id: @line_item.cart_id, product_id: @line_item.product_id } }
+      post line_items_url, params: { product_id: products(:ruby).id, xhr: true }
+    end
+    assert_redirected_to store_index_url
+    #assert_response :success
+    assert_match /<tr class=\\"line-item-highlight"/, @response.body
+
+  end
+
+
   test "cart count should remain the same for duplicates" do
     assert_difference('LineItem.count', 1) do
       #post line_items_url, params: { line_item: { cart_id: @line_item.cart_id, product_id: @line_item.product_id } }
