@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   resources :line_items
   resources :carts
   resources :products
-
-
   post 'line_items/:id/reduce' => "line_items#reduce_quantity", as: "line_item_reduce" 
 
+  resources :products do
+    get :who_bought, on: :member
+  end
 
   root 'store#index', as: 'store_index'
 
