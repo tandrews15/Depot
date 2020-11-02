@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     if user.id == session[:user_id]
-      if user&.authenticate(params[:password_old])
+      if params[:password_old] == user.password
         respond_to do |format|
           if @user.update(user_params)
             format.html { redirect_to users_url, notice: "User #{@user.name} was successfully updated." }

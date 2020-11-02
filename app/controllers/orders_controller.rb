@@ -35,11 +35,12 @@ class OrdersController < ApplicationController
       if @order.save
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
-        OrderMailer.received(@order).deliver_now
+        
+        #OrderMailer.received(@order).deliver_now
 
         ChargeOrderJob.perform_later(@order, pay_type_params.to_h)
         
-        format.html { redirect_to store_index_url, notice: 'Thank you for your order.' }
+        format.html { redirect_to store_index_url(locale: I18n.locale), notice: I18n.t('thanks') }
         #format.html { redirect_to @order, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -55,7 +56,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.update(order_params)
 
-        OrderMailer.shipped(@order).deliver_now
+        #OrderMailer.shipped(@order).deliver_now
 
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
